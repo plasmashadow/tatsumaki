@@ -18,5 +18,5 @@ setup(
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=['schematics', 'motor'],
-    test_requires=['nose', 'nose-cov']
+    test_requires=['nose', 'nose-cov', 'mock']
 )
