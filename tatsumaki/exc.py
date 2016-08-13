@@ -1,0 +1,2 @@
+class TatsumakiException(Exception):
+    pass

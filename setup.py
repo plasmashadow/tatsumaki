@@ -17,6 +17,6 @@ setup(
     url='https://github.com/plasmashadow/tatsumaki',
     license=license,
     packages=find_packages(exclude=('tests', 'docs')),
-    install_requires=['schematics', 'motor'],
+    install_requires=['schematics', 'motor', 'tornado', 'pymongo'],
     test_requires=['nose', 'nose-cov', 'mock']
 )
