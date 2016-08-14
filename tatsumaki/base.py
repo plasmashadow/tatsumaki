@@ -40,3 +40,10 @@ class Document(Model):
 
     def to_dict(self):
         return self._data
+
+    @classmethod
+    @coroutine
+    def find(cls, query, limit=100):
+        cursor = Connection.get_collection(cls.__name__).find(query)
+        results = yield cursor.to_list(length=limit)
+        raise Return(results)

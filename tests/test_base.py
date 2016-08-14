@@ -39,6 +39,11 @@ class DocumentTest(AsyncTestCase):
         ided = yield self.db.find_one({"_id": 2})
         self.assertIsNone(ided)
 
+    @gen_test
+    def test_find(self):
+        results = yield self.Modal.find({})
+        self.assertIsNotNone(results)
+
     def tearDown(self):
         super(DocumentTest, self).tearDown()
 

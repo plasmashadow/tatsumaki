@@ -6,8 +6,24 @@ try:
 except ImportError:
     from bson.dbref import DBRef
 
+class TypeBase(BaseType):
 
-class ReferenceType(BaseType):
+    def __le__(self, value):
+        pass
+
+    def __ge__(self, value):
+        pass
+
+    def __lt__(self, value):
+        pass
+
+    def __gt__(self, value):
+        pass
+
+    def __eq__(self, value):
+        pass
+
+class ReferenceType(TypeBase):
     def __init__(self, *args, **kwds):
         self._model = args[0]
         super(ReferenceType, self).__init__(*args, **kwds)
