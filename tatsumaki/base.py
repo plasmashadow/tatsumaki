@@ -14,6 +14,10 @@ class Document(Model):
         self._id_to_set = kwargs.get("id", None)
         if self._id_to_set:
             kwargs.pop("id")
+        self.is_saved = kwargs.get("is_saved", False)
+        if self.is_saved:
+            self.id = self._id_to_set
+            kwargs.pop("is_saved")
         super(Document, self).__init__(*args, **kwargs)
 
     @coroutine
@@ -43,7 +47,17 @@ class Document(Model):
 
     @classmethod
     @coroutine
-    def find(cls, query, limit=100):
+    def find(cls, query, **kwargs):
         cursor = Connection.get_collection(cls.__name__).find(query)
-        results = yield cursor.to_list(length=limit)
-        raise Return(results)
+        results = yield cursor.to_list(**kwargs)
+        res = []
+        for result in results:
+            qry = dict()
+            _id = result["_id"]
+            qry.update(result)
+            qry.pop("_id")
+            entity = cls(id=_id, is_saved=True)
+            for key in qry:
+                setattr(entity, key, qry[key])
+            res.append(entity)
+        raise Return(res)

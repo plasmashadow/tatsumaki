@@ -41,8 +41,10 @@ class DocumentTest(AsyncTestCase):
 
     @gen_test
     def test_find(self):
-        results = yield self.Modal.find({})
+        results = yield self.Modal.find({}, length=100)
         self.assertIsNotNone(results)
+        result = results[0]
+        self.assertIsInstance(result, self.Modal)
 
     def tearDown(self):
         super(DocumentTest, self).tearDown()

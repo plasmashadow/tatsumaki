@@ -53,3 +53,17 @@ class TestFields(AsyncTestCase):
         yield p.save()
 
         self.assertIsNotNone(p.to_primitive())
+
+    @gen_test
+    def test_refrence_query(self):
+        class Location(Document):
+            lat = StringType()
+            lon = StringType()
+
+        class NewPerson(Document):
+            lists = ListType(ReferenceType(Location))
+
+        results = yield NewPerson.find({}, length=100)
+        self.assertIsNotNone(results)
+        result = results[0]
+        self.assertIsInstance(result.lists[0], DBRef)
